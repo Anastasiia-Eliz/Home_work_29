@@ -19,11 +19,13 @@ from Hw_django import settings
 from ads import views
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('ads.urls')),
-    path ('', include('users.urls'))
+    path('', include('users.urls'))
 ]
 
 if settings.DEBUG:
