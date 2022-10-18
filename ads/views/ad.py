@@ -60,6 +60,7 @@ class AdDetailView(RetrieveAPIView):
     serializer_class = AdSerializer
 
 
+
 class AdCreateView(CreateAPIView):
     """Create new add"""
     queryset = Ad.objects.all()
