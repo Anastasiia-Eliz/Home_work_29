@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from ads.models import Location
-from users.models import User
+from users.models import User, EmailDomainValidator
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -22,6 +22,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 		queryset=Location.objects.all(),
 		slug_field='name'
 	)
+	email = serializers.EmailField(validators=[EmailDomainValidator('rambler.ru')])
 
 	class Meta:
 		model = User
