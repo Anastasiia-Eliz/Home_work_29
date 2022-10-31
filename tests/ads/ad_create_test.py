@@ -31,6 +31,6 @@ def test_list_ad(api_client, ad):
 
 @pytest.mark.django_db
 def test_get_ad_by_id(api_client, ad):
-	response = api_client.get('ad/<int:pk>/')
+	response = api_client.get("/ad/<int:pk>/")
 	assert response.status_code == status.HTTP_200_OK
 	assert response.json()['id'] == ad.id

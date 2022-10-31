@@ -5,6 +5,11 @@ from ads.models import Category, Ad, Location
 from users.models import User
 
 
+def check_not_published(value: bool):
+	if value:
+		raise serializers.ValidationError(f"This field may not be True")
+
+
 class AdSerializer(serializers.ModelSerializer):
 	author = serializers.SlugRelatedField(
 		required=False,
@@ -25,7 +30,8 @@ class AdSerializer(serializers.ModelSerializer):
 class AdCreateSerializer(serializers.ModelSerializer):
 	id = serializers.IntegerField(required=False)
 	image = serializers.ImageField(required=False)
-
+	name = serializers.CharField(allow_blank=False, min_length=10, max_length=100)
+	price = serializers.IntegerField(min_value=0, default=0)
 	author = serializers.SlugRelatedField(
 		required=False,
 		queryset=User.objects.all(),
@@ -36,6 +42,7 @@ class AdCreateSerializer(serializers.ModelSerializer):
 		queryset=Category.objects.all(),
 		slug_field='name'
 	)
+	is_published = serializers.BooleanField(default=None, validators=[check_not_published])
 
 	class Meta:
 		model = Ad
@@ -104,4 +111,12 @@ class AdImageSerializer(serializers.ModelSerializer):
 class LocationSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Location
+		fields = '__all__'
+
+
+class CategorySerializer(serializers.ModelSerializer):
+	slug = serializers.SlugField(min_length=5, max_length=10)
+
+	class Meta:
+		model = Category
 		fields = '__all__'
